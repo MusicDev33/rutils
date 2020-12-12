@@ -1,0 +1,19 @@
+{
+  "name": "rutils",
+  "version": "0.1.0",
+  "description": "A collection of Raspberry Pi utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MusicDev33/rutils.git"
+  },
+  "author": "Shelby McCowan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MusicDev33/rutils/issues"
+  },
+  "homepage": "https://github.com/MusicDev33/rutils#readme"
+}
