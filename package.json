@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/MusicDev33/rutils/issues"
   },
-  "homepage": "https://github.com/MusicDev33/rutils#readme"
+  "homepage": "https://github.com/MusicDev33/rutils#readme",
+  "dependencies": {
+    "speedtest-net": "^2.1.1"
+  }
 }
