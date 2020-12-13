@@ -45,6 +45,7 @@ app.get(BASE_URL, (_, res: Response) => {
   res.status(404).send(resText + resImg);
 });
 
+/*
 (async () => {
   console.log('test');
   try {
@@ -55,3 +56,14 @@ app.get(BASE_URL, (_, res: Response) => {
     process.exit(0);
   }
 })();
+*/
+
+app.listen(PORT, () => {
+  console.log(`\nRasUtils started in mode '${process.env.NODE_ENV}'`);
+  if (process.env.NODE_ENV === 'PRODUCTION' || process.env.NODE_ENV === 'DEVTEST') {
+    console.log('TLS/HTTPS is on.');
+  } else {
+    console.log('TLS/HTTPS is off.');
+  }
+  console.log('Port: ' + PORT);
+});
