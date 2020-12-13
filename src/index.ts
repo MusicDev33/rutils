@@ -25,7 +25,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.connection.on('connected', () => {
   console.log('Database Connected: ' + DB_URI);
 
-  cron.schedule('* * * * *', async () => {
+  cron.schedule('*/30 * * * *', async () => {
     await runSpeedTest();
   })
 });
