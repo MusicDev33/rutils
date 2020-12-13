@@ -1,13 +1,14 @@
 // eslint:disable-next-line
 require('tsconfig-paths/register');
-import speedTest from 'speedtest-net';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import express from 'express';
+import { runSpeedTest } from '@automa/speedtest.au';
+import cron from 'node-cron';
 
 import { validateVitalEnv } from './env.validate';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 dotenv.config();
 require('dotenv-defaults/config');
@@ -23,6 +24,10 @@ mongoose.set('useCreateIndex', true);
 
 mongoose.connection.on('connected', () => {
   console.log('Database Connected: ' + DB_URI);
+
+  cron.schedule('* * * * *', async () => {
+    await runSpeedTest();
+  })
 });
 
 mongoose.connection.on('error', (err: any) => {
@@ -44,19 +49,6 @@ app.get(BASE_URL, (_, res: Response) => {
   const resImg = '<img src="https://pm1.narvii.com/6179/5434c40be48978d53a89c43c581bb0d84d1a4c56_hq.jpg">';
   res.status(404).send(resText + resImg);
 });
-
-/*
-(async () => {
-  console.log('test');
-  try {
-    console.log(await speedTest());
-  } catch (err) {
-    console.log(err.message);
-  } finally {
-    process.exit(0);
-  }
-})();
-*/
 
 app.listen(PORT, () => {
   console.log(`\nRasUtils started in mode '${process.env.NODE_ENV}'`);

@@ -1,4 +1,6 @@
-export interface SpeedTestModel {
+import { Document } from 'mongoose';
+
+export interface SpeedTestModel extends Document {
   time: Date,
   jitter: number,
   latency: number,

@@ -15,7 +15,14 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "dist",
-        "baseUrl": "src"
+        "baseUrl": "src",
+        "paths": {
+          "@models/*": ["models/*"],
+          "@schemas/*": ["schemas/*"],
+          "@services/*": ["services/*"],
+          "@classes/*": ["classes/*"],
+          "@automa/*": ["automa/*"]
+        },
     },
     "include": [
       "empty.ts",
