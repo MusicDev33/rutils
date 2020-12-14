@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { runSpeedTest } from '@automa/speedtest.au';
 import cron from 'node-cron';
+import path from 'path';
 
 import { validateVitalEnv } from './env.validate';
 import { Response } from 'express';
@@ -36,6 +37,10 @@ mongoose.connection.on('error', (err: any) => {
 
 // Create Express instance
 const app = express();
+app.set('view engine', 'pug');
+app.use(express.static('public'));
+console.log(path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -48,6 +53,10 @@ app.get(BASE_URL, (_, res: Response) => {
   const resText = '<h1>404 - Here\'s a cool picture of Blaziken and Lucario:<br><br>';
   const resImg = '<img src="https://pm1.narvii.com/6179/5434c40be48978d53a89c43c581bb0d84d1a4c56_hq.jpg">';
   res.status(404).send(resText + resImg);
+});
+
+app.get(`${BASE_URL}/test`, (_, res: Response) => {
+  res.render('speedchart/view', {basedir: path.join(__dirname, 'views')});
 });
 
 app.listen(PORT, () => {
