@@ -12,3 +12,9 @@ Because TypeScript can complicate things, run the backend using this:
 #### Notes
 
 We use a separate `models` folder to house all interfaces that will also be used as objects in the database.
+
+##### Cron in .env
+
+To use Cron, you put your crontab in the .env file, with each space replaced with a plus sign. An example:
+
+`*/30 * * * *` = `*/30+*+*+*+*`
