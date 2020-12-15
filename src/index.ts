@@ -8,6 +8,7 @@ import { runSpeedTest } from '@automa/speedtest.au';
 import cron from 'node-cron';
 import path from 'path';
 import { execSync } from 'child_process';
+const jsStringify = require('js-stringify');
 
 import { cronParse } from './cronparse';
 
@@ -81,22 +82,65 @@ app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
   // on MacOS, I will add that, but for now, MacOS will use sample data from
   // a Raspberry Pi 4.
   if (process.platform === 'darwin') {
-    const results = `Linux 5.4.0-1015-raspi (ubuntu) 	12/14/20 	_aarch64_	(4 CPU)
+    let results = `Linux 5.4.0-1015-raspi (ubuntu) 	12/14/20 	_aarch64_	(4 CPU)
 
     23:21:07     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
     23:21:07     all    0.14    0.01    0.25    0.01    0.00    0.01    0.00    0.00    0.00   99.58
     23:21:07       0    0.13    0.01    0.24    0.01    0.00    0.01    0.00    0.00    0.00   99.61
     23:21:07       1    0.15    0.01    0.26    0.01    0.00    0.00    0.00    0.00    0.00   99.57
     23:21:07       2    0.14    0.01    0.25    0.01    0.00    0.01    0.00    0.00    0.00   99.59
-    23:21:07       3    0.15    0.01    0.26    0.01    0.00    0.01    0.00    0.00    0.00   99.56`;
+    23:21:07       3    0.15    0.01    0.26    0.01    0.00    0.01    0.00    0.00    0.00   99.56`
+    .split('\n');
 
-    return res.send(results);
+    results.shift();
+    results.shift();
+    results.shift();
+
+    type Usage = {cpu: string, usage: string};
+
+    let exportResults: Usage[] = [];
+
+    exportResults = results.map((row: string) => {
+      const rowData = row.trim().replace(/\s+/g, ' ').split(' ');
+
+      const cpuUsage = 100 - parseFloat(rowData[rowData.length - 1]);
+      const cpuName = rowData[1];
+      const usage: Usage = {
+        cpu: cpuName,
+        usage: cpuUsage.toFixed(2)
+      }
+
+      return usage;
+    });
+
+    // return res.send(exportResults);
+    return res.render('cpu/view', {basedir: path.join(__dirname, 'views'), results: JSON.stringify(exportResults)});
   }
 
   try {
-    const results = execSync('mpstat -P ALL').toString('utf-8');
-    console.log(results);
-    return res.send(results);
+    const results = execSync('mpstat -P ALL').toString('utf-8').split('\n');
+    results.shift();
+    results.shift();
+    results.shift();
+
+    type Usage = {cpu: string, usage: string};
+
+    let exportResults: Usage[] = [];
+
+    exportResults = results.map((row: string) => {
+      const rowData = row.trim().replace(/\s+/g, ' ').split(' ');
+
+      const cpuUsage = 100 - parseFloat(rowData[rowData.length - 1]);
+      const cpuName = rowData[1];
+      const usage: Usage = {
+        cpu: cpuName,
+        usage: cpuUsage.toFixed(2)
+      }
+
+      return usage;
+    });
+    
+    return res.render('cpu/view', {basedir: path.join(__dirname, 'views'), results: JSON.stringify(exportResults)});
   } catch (e) {
     console.log(e);
     return res.send('error');
