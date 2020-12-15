@@ -21,7 +21,9 @@
           "@schemas/*": ["schemas/*"],
           "@services/*": ["services/*"],
           "@classes/*": ["classes/*"],
-          "@automa/*": ["automa/*"]
+          "@automa/*": ["automa/*"],
+          "@views/*": ["views/*"],
+          "@routes/*": ["routes/*"]
         },
     },
     "include": [

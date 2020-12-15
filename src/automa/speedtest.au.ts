@@ -3,7 +3,7 @@ import { SpeedTest } from '@schemas/speed-test.schema';
 import SpeedTestService from '@services/speed-test.service';
 
 export const runSpeedTest = async () => {
-  console.log('test');
+  console.log('\nStarting Speed Test\n');
   try {
     const results = await speedTest();
     console.log(results);
@@ -19,7 +19,7 @@ export const runSpeedTest = async () => {
     const savedTest = await SpeedTestService.saveModel(model);
 
     if (savedTest) {
-      console.log('Saved speedtest successfully!');
+      console.log('Saved Speed Test successfully!');
     } else {
       console.log('Could not save test');
     }

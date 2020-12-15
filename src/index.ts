@@ -8,8 +8,11 @@ import { runSpeedTest } from '@automa/speedtest.au';
 import cron from 'node-cron';
 import path from 'path';
 
+import { cronParse } from './cronparse';
+
 import { validateVitalEnv } from './env.validate';
 import { Response } from 'express';
+import SpeedTestService from '@services/speed-test.service';
 
 dotenv.config();
 require('dotenv-defaults/config');
@@ -18,6 +21,8 @@ require('dotenv-defaults/config');
 const DB_URI = validateVitalEnv('DB_URI');
 const PORT = validateVitalEnv('API_PORT');
 const BASE_URL = validateVitalEnv('API_URL_BASE');
+// In minutes
+const SPEEDTEST_INTERVAL = cronParse(validateVitalEnv('SPEEDTEST_INTERVAL'));
 
 mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useFindAndModify', false);
@@ -26,7 +31,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.connection.on('connected', () => {
   console.log('Database Connected: ' + DB_URI);
 
-  cron.schedule('*/30 * * * *', async () => {
+  cron.schedule(SPEEDTEST_INTERVAL, async () => {
     await runSpeedTest();
   })
 });
@@ -55,10 +60,23 @@ app.get(BASE_URL, (_, res: Response) => {
   res.status(404).send(resText + resImg);
 });
 
-app.get(`${BASE_URL}/test`, (_, res: Response) => {
+
+
+app.get(`${BASE_URL}/test`, async (_, res: Response) => {
+  const query = {
+
+  };
+  const speedTests = await SpeedTestService.findModelsByQuery(query, {_id: -1}, 800);
+
+  // Set some interval, and calculate the average speeds at that interval
+
+
+
   res.render('speedchart/view', {basedir: path.join(__dirname, 'views')});
 });
 
+
+console.log(`SpeedTest cron is ${SPEEDTEST_INTERVAL}`);
 app.listen(PORT, () => {
   console.log(`\nRasUtils started in mode '${process.env.NODE_ENV}'`);
   if (process.env.NODE_ENV === 'PRODUCTION' || process.env.NODE_ENV === 'DEVTEST') {
