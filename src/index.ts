@@ -131,6 +131,7 @@ app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
     results.pop();
     results.pop();
     results.pop();
+    results.pop();
 
     type Usage = {cpu: string, usage: string};
 
