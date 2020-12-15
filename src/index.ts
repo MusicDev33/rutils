@@ -119,6 +119,7 @@ app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
 
   try {
     const results = execSync('mpstat -P ALL 1 1').toString('utf-8').split('\n');
+    console.log(results);
     results.shift();
     results.shift();
     results.shift();
