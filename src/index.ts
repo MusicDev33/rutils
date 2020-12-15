@@ -118,10 +118,18 @@ app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
   }
 
   try {
-    const results = execSync('mpstat -P ALL').toString('utf-8').split('\n');
+    const results = execSync('mpstat -P ALL 1 1').toString('utf-8').split('\n');
     results.shift();
     results.shift();
     results.shift();
+
+    results.pop();
+    results.pop();
+    results.pop();
+    results.pop();
+    results.pop();
+    results.pop();
+    results.pop();
 
     type Usage = {cpu: string, usage: string};
 
@@ -139,7 +147,7 @@ app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
 
       return usage;
     });
-    
+
     return res.render('cpu/view', {basedir: path.join(__dirname, 'views'), results: JSON.stringify(exportResults)});
   } catch (e) {
     console.log(e);
