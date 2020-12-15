@@ -7,6 +7,7 @@ import express from 'express';
 import { runSpeedTest } from '@automa/speedtest.au';
 import cron from 'node-cron';
 import path from 'path';
+import { execSync } from 'child_process';
 
 import { cronParse } from './cronparse';
 
@@ -71,8 +72,41 @@ app.get(`${BASE_URL}/test`, async (_, res: Response) => {
   // Set some interval, and calculate the average speeds at that interval
 
 
-
   res.render('speedchart/view', {basedir: path.join(__dirname, 'views')});
+});
+
+app.get(`${BASE_URL}/cpu`, async (_, res: Response) => {
+
+  // this is meant to run on Linux. If I can find some way to get this output
+  // on MacOS, I will add that, but for now, MacOS will use sample data from
+  // a Raspberry Pi 4.
+  if (process.platform === 'darwin') {
+    const results = `Linux 5.4.0-1015-raspi (ubuntu) 	12/14/20 	_aarch64_	(4 CPU)
+
+    23:21:07     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+    23:21:07     all    0.14    0.01    0.25    0.01    0.00    0.01    0.00    0.00    0.00   99.58
+    23:21:07       0    0.13    0.01    0.24    0.01    0.00    0.01    0.00    0.00    0.00   99.61
+    23:21:07       1    0.15    0.01    0.26    0.01    0.00    0.00    0.00    0.00    0.00   99.57
+    23:21:07       2    0.14    0.01    0.25    0.01    0.00    0.01    0.00    0.00    0.00   99.59
+    23:21:07       3    0.15    0.01    0.26    0.01    0.00    0.01    0.00    0.00    0.00   99.56`;
+
+    return res.send(results);
+  }
+
+  try {
+    const results = execSync('mpstat -P ALL').toString('utf-8');
+    console.log(results);
+    return res.send(results);
+  } catch (e) {
+    console.log(e);
+    return res.send('error');
+  }
+});
+
+app.get(`${BASE_URL}/test2`, async (_, res: Response) => {
+  const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, 800);
+
+  return res.json({speedTests});
 });
 
 
