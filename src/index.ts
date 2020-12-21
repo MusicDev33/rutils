@@ -172,5 +172,6 @@ app.listen(PORT, () => {
   } else {
     console.log('TLS/HTTPS is off.');
   }
+  console.log(`Base URL: ${BASE_URL}`);
   console.log('Port: ' + PORT);
 });
