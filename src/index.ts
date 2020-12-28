@@ -7,6 +7,7 @@ import express from 'express';
 import { runSpeedTest } from '@automa/speedtest.au';
 import cron from 'node-cron';
 import path from 'path';
+const cors = require('cors');
 import { execSync } from 'child_process';
 const jsStringify = require('js-stringify');
 
@@ -44,6 +45,7 @@ mongoose.connection.on('error', (err: any) => {
 
 // Create Express instance
 const app = express();
+app.use(cors());
 app.set('view engine', 'pug');
 app.use(express.static('public'));
 console.log(path.join(__dirname, 'views'));
