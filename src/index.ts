@@ -244,7 +244,7 @@ app.get(`${BASE_URL}/cpudata`, async (_, res: Response) => {
   }
 });
 
-app.get(`${BASE_URL}/test2`, async (_, res: Response) => {
+app.get(`${BASE_URL}/wifidata`, async (_, res: Response) => {
   const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, 800);
 
   return res.json({speedTests});
