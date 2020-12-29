@@ -14,7 +14,7 @@ const jsStringify = require('js-stringify');
 import { cronParse } from './cronparse';
 
 import { validateVitalEnv } from './env.validate';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import SpeedTestService from '@services/speed-test.service';
 
 dotenv.config();
@@ -244,8 +244,13 @@ app.get(`${BASE_URL}/cpudata`, async (_, res: Response) => {
   }
 });
 
-app.get(`${BASE_URL}/wifidata`, async (_, res: Response) => {
-  const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, 800);
+app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
+  let numResults = 800;
+  if (req.query.limit) {
+    numResults = parseInt(req.query.limit as string);
+  }
+
+  const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, numResults);
 
   return res.json({speedTests});
 });
