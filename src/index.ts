@@ -9,9 +9,9 @@ import cron from 'node-cron';
 import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
-const jsStringify = require('js-stringify');
 
 import { cronParse } from './cronparse';
+import { changeTimeZone, TimeZones } from '@util/time';
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
@@ -155,6 +155,16 @@ app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
   let numResults = 800;
   if (req.query.limit) {
     numResults = parseInt(req.query.limit as string);
+  }
+
+  let dataType = 'download';
+  if (req.query.data) {
+    dataType = req.query.data as string;
+  }
+
+  let timeZone = 'GMT';
+  if (req.query.tz) {
+    timeZone = (req.query.tz as string).toUpperCase();
   }
 
   const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, numResults);

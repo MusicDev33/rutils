@@ -23,7 +23,8 @@
           "@classes/*": ["classes/*"],
           "@automa/*": ["automa/*"],
           "@views/*": ["views/*"],
-          "@routes/*": ["routes/*"]
+          "@routes/*": ["routes/*"],
+          "@util/*": ["util/*"]
         },
     },
     "include": [
