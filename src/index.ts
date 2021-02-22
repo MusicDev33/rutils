@@ -17,6 +17,10 @@ import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
 import SpeedTestService from '@services/speed-test.service';
 
+import { DataTypeGuard } from 'guards/data-type.guard';
+
+import CleanMCRoutes from '@routes/cleanmc/routes';
+
 dotenv.config();
 require('dotenv-defaults/config');
 
@@ -24,6 +28,7 @@ require('dotenv-defaults/config');
 const DB_URI = validateVitalEnv('DB_URI');
 const PORT = validateVitalEnv('API_PORT');
 const BASE_URL = validateVitalEnv('API_URL_BASE');
+console.log(BASE_URL);
 // In minutes
 const SPEEDTEST_INTERVAL = cronParse(validateVitalEnv('SPEEDTEST_INTERVAL'));
 
@@ -157,9 +162,10 @@ app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
     numResults = parseInt(req.query.limit as string);
   }
 
-  let dataType = 'download';
-  if (req.query.data) {
-    dataType = req.query.data as string;
+  type DataType = 'downloadSpeed' | 'uploadSpeed' | 'jitter' | 'latency';
+  let dataType: DataType = 'downloadSpeed';
+  if (req.query.data && DataTypeGuard(req.query.data as string)) {
+    dataType = req.query.data as DataType;
   }
 
   let timeZone = 'GMT';
@@ -167,16 +173,27 @@ app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
     timeZone = (req.query.tz as string).toUpperCase();
   }
 
-  const speedTests = await SpeedTestService.findModelsByQuery({}, {_id: -1}, numResults);
+  // Build aggregate
+  const aggregate: any[] = [];
+  const project: any = {
+    _id: false,
+    time: true
+  };
+
+  project[dataType] = true;
+
+  aggregate.push({'$project': project});
+
+  const speedTests = await SpeedTestService.findModelsByAggregate(aggregate, {_id: -1}, numResults);
 
   if (!speedTests) {
     return res.json({success: false, speedTests: []});
   }
 
-
-
   return res.json({success: true, speedTests});
 });
+
+app.use(`/cleanmc`, CleanMCRoutes);
 
 
 console.log(`SpeedTest cron is ${SPEEDTEST_INTERVAL}`);

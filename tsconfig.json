@@ -24,7 +24,10 @@
           "@automa/*": ["automa/*"],
           "@views/*": ["views/*"],
           "@routes/*": ["routes/*"],
-          "@util/*": ["util/*"]
+          "@util/*": ["util/*"],
+          "@guards/*": ["guards/*"],
+          "@cleanmc/*": ["cleanmc/*"],
+          "@recheer/*": ["recheer/*"]
         },
     },
     "include": [
