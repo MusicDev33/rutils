@@ -193,6 +193,12 @@ app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
   return res.json({success: true, speedTests});
 });
 
+app.get(`${BASE_URL}/thermals/systemp`, async (req: Request, res: Response) => {
+  const temp = parseInt(execSync('cat /sys/class/thermal/thermal_zone0/temp').toString());
+  return res.json({temp: temp / 1000});
+
+});
+
 app.use(`/cleanmc`, CleanMCRoutes);
 
 
