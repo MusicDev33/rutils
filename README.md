@@ -18,3 +18,12 @@ We use a separate `models` folder to house all interfaces that will also be used
 To use Cron, you put your crontab in the .env file, with each space replaced with a plus sign. An example:
 
 `*/30 * * * *` = `*/30+*+*+*+*`
+
+### For RasPi
+
+Raspberry Pis run on ARM, so here's how I get RUtils to run on RPi:
+
+- Node 14
+- Add Python 2 to `PYTHON`
+    - `echo "export PYTHON=/usr/bin/python2" >> ~/.bashrc && source ~/.bashrc`
+- `npm i` and if you've already tried building `node-gyp`, then `npm rebuild node-gyp`
