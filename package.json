@@ -10,7 +10,8 @@
     "build-task:autoprefixer": "postcss assets/css/*.css --use autoprefixer -d assets/css",
     "sass:build": "npm-run-all -p build-task:*",
     "sass:watch": "chokidar 'src/**/*.scss' -c 'npm run sass:build'",
-    "dev-scss": "npm-run-all -p sass:*"
+    "dev-scss": "npm-run-all -p sass:*",
+    "prod": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
