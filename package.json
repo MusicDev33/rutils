@@ -14,6 +14,7 @@
     "prod": "ts-node src/index.ts",
     "ssh-test": "ts-node src/modules/autoupdate/autoupdate.ts",
     "update:all": "git pull origin master && npm i && pm2 restart rutils && ts-node src/modules/autoupdate/autoupdate.ts",
+    "update:self": "",
     "pm2": "pm2 start npm --name=rutils -- run prod"
   },
   "repository": {

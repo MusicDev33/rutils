@@ -4,14 +4,13 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import express from 'express';
-import { runSpeedTest } from '@automa/speedtest.au';
-import cron from 'node-cron';
 import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
+import { rPis } from 'machines';
+import axios from 'axios';
 
 import { cronParse } from './cronparse';
-import { changeTimeZone, TimeZones } from '@util/time';
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
@@ -31,6 +30,8 @@ const BASE_URL = validateVitalEnv('API_URL_BASE');
 console.log(BASE_URL);
 // In minutes
 const SPEEDTEST_INTERVAL = cronParse(validateVitalEnv('SPEEDTEST_INTERVAL'));
+
+
 
 mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useFindAndModify', false);
@@ -196,6 +197,25 @@ app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
 app.get(`${BASE_URL}/thermals/systemp`, async (req: Request, res: Response) => {
   const temp = parseInt(execSync('cat /sys/class/thermal/thermal_zone0/temp').toString());
   return res.json({temp: (temp / 1000).toString()});
+
+});
+
+app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) => {
+  const temp = parseInt(execSync('cat /sys/class/thermal/thermal_zone0/temp').toString());
+  let temps = [{name: 'raspi2', temp: (temp / 1000).toString()}];
+
+  for (let pi of rPis) {
+    try {
+      let res = await axios.get(`${pi.ip}:3000/utils/thermals/systemp`);
+      let data = res.data;
+      let newTemp = parseInt(data.temp);
+      temps.push({name: pi.hostName, temp: (newTemp).toString()});
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return res.json({temps});
 
 });
 
