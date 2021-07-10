@@ -11,7 +11,10 @@
     "sass:build": "npm-run-all -p build-task:*",
     "sass:watch": "chokidar 'src/**/*.scss' -c 'npm run sass:build'",
     "dev-scss": "npm-run-all -p sass:*",
-    "prod": "ts-node src/index.ts"
+    "prod": "ts-node src/index.ts",
+    "ssh-test": "ts-node src/modules/autoupdate/autoupdate.ts",
+    "update:all": "git pull origin master && npm i && pm2 restart rutils && ts-node src/modules/autoupdate/autoupdate.ts",
+    "pm2": "pm2 start npm --name=rutils -- run prod"
   },
   "repository": {
     "type": "git",
@@ -38,6 +41,7 @@
     "body-parser": "^1.19.0",
     "chart.js": "^3.3.2",
     "cheerio": "^1.0.0-rc.9",
+    "child-process-async": "^1.0.1",
     "chokidar-cli": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -56,6 +60,7 @@
     "pug": "^3.0.2",
     "sass": "^1.34.1",
     "speedtest-net": "^2.2.0",
+    "ssh2-promise": "^1.0.0",
     "ts-node": "^10.0.0",
     "ts-node-dev": "^1.1.6",
     "tsconfig-paths": "^3.9.0"

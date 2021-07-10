@@ -27,3 +27,5 @@ Raspberry Pis run on ARM, so here's how I get RUtils to run on RPi:
 - Add Python 2 to `PYTHON`
     - `echo "export PYTHON=/usr/bin/python2" >> ~/.bashrc && source ~/.bashrc`
 - `npm i` and if you've already tried building `node-gyp`, then `npm rebuild node-gyp`
+
+There will be a required machines.ts file to run this program.
