@@ -123,6 +123,10 @@ app.get(`${BASE_URL}/cpudata`, async (_, res: Response) => {
     results.shift();
     results.shift();
 
+    if (results.includes('PM') || results.includes('AM')) {
+      results.shift();
+    }
+
     results.pop();
     results.pop();
     results.pop();
