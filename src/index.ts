@@ -209,7 +209,7 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
       console.log(`Getting temp data for ${pi.hostName}`);
       let res = await axios.get(`http://${pi.ip}:3000/utils/thermals/systemp`);
       let data = res.data;
-      let newTemp = parseInt(data.temp);
+      let newTemp = parseFloat(data.temp);
       temps.push({name: pi.hostName, temp: (newTemp).toString()});
     } catch (e) {
       console.log(e);
