@@ -29,7 +29,14 @@ const PRIVATE_KEY = validateVitalEnv('PRIVATE_SSH_KEY');
     await ssh.connect();
     console.log(`Connection to ${rpi.hostName} established.`);
     try {
-      let folders = await ssh.exec('cd rutils && git reset --hard HEAD && git pull origin main');
+      let folders = await ssh.exec('cd rutils && git reset --hard HEAD');
+      console.log(folders.toString());
+    } catch (e) {
+      console.log(e.toString());
+    }
+
+    try {
+      let folders = await ssh.exec('cd rutils && git pull origin master');
       console.log(folders.toString());
     } catch (e) {
       console.log(e.toString());
