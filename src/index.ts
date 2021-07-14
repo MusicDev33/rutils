@@ -173,7 +173,12 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
       let res = await axios.get(`http://${pi.ip}:3000/utils/thermals/systemp`);
       let data = res.data;
       let newTemp = parseFloat(data.temp);
-      temps.push({name: pi.hostName, temp: (newTemp).toString()});
+
+      if (pi.hostName === 'raspi1') {
+        temps.unshift({name: pi.hostName, temp: (newTemp).toString()});
+      } else {
+        temps.push({name: pi.hostName, temp: (newTemp).toString()});
+      }
     } catch (e) {
       console.log(e);
     }
