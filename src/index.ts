@@ -7,10 +7,11 @@ import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
-const { version } = require('../package,json');
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
+
+const version = process.env.npm_package_version;
 
 dotenv.config();
 require('dotenv-defaults/config');
