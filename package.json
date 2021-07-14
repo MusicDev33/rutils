@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/MusicDev33/rutils#readme",
   "dependencies": {
-    "@types/body-parser": "^1.19.0",
     "@types/chart.js": "^2.9.32",
     "@types/cheerio": "^0.22.29",
     "@types/cors": "^2.8.10",
@@ -39,7 +38,6 @@
     "@types/speedtest-net": "^2.1.0",
     "autoprefixer": "^10.2.6",
     "axios": "^0.21.1",
-    "body-parser": "^1.19.0",
     "chart.js": "^3.3.2",
     "cheerio": "^1.0.0-rc.9",
     "child-process-async": "^1.0.1",
