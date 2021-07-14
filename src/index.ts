@@ -7,7 +7,7 @@ import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
-const { version } = require('./package,json');
+const { version } = require('../package,json');
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
