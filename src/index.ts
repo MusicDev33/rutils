@@ -7,31 +7,32 @@ import express from 'express';
 import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
-import { rPis } from 'machines';
 import axios from 'axios';
-
-import { cronParse } from './cronparse';
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
-import SpeedTestService from '@services/speed-test.service';
 
 import { DataTypeGuard } from 'guards/data-type.guard';
 
-import CleanMCRoutes from '@routes/cleanmc/routes';
-
 dotenv.config();
 require('dotenv-defaults/config');
+
+let rPis: {hostName: string, ip: string}[];
+
+const NODE_TYPE = validateVitalEnv('NODE_TYPE');
+
+if (NODE_TYPE === 'head') {
+  import('machines').then(machines => {
+    rPis = machines.rPis;
+    console.log('Raspberry Pi list loaded.')
+  });
+}
 
 // CONSTANTS
 const DB_URI = validateVitalEnv('DB_URI');
 const PORT = validateVitalEnv('API_PORT');
 const BASE_URL = validateVitalEnv('API_URL_BASE');
 console.log(BASE_URL);
-// In minutes
-const SPEEDTEST_INTERVAL = cronParse(validateVitalEnv('SPEEDTEST_INTERVAL'));
-
-
 
 mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useFindAndModify', false);
@@ -157,43 +158,6 @@ app.get(`${BASE_URL}/cpudata`, async (_, res: Response) => {
   }
 });
 
-app.get(`${BASE_URL}/wifidata`, async (req: Request, res: Response) => {
-  let numResults = 800;
-  if (req.query.limit) {
-    numResults = parseInt(req.query.limit as string);
-  }
-
-  type DataType = 'downloadSpeed' | 'uploadSpeed' | 'jitter' | 'latency';
-  let dataType: DataType = 'downloadSpeed';
-  if (req.query.data && DataTypeGuard(req.query.data as string)) {
-    dataType = req.query.data as DataType;
-  }
-
-  let timeZone = 'GMT';
-  if (req.query.tz) {
-    timeZone = (req.query.tz as string).toUpperCase();
-  }
-
-  // Build aggregate
-  const aggregate: any[] = [];
-  const project: any = {
-    _id: false,
-    time: true
-  };
-
-  project[dataType] = true;
-
-  aggregate.push({'$project': project});
-
-  const speedTests = await SpeedTestService.findModelsByAggregate(aggregate, {_id: -1}, numResults);
-
-  if (!speedTests) {
-    return res.json({success: false, speedTests: []});
-  }
-
-  return res.json({success: true, speedTests});
-});
-
 app.get(`${BASE_URL}/thermals/systemp`, async (req: Request, res: Response) => {
   const temp = parseInt(execSync('cat /sys/class/thermal/thermal_zone0/temp').toString());
   return res.json({temp: (temp / 1000).toString()});
@@ -220,10 +184,6 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
 
 });
 
-app.use(`/cleanmc`, CleanMCRoutes);
-
-
-console.log(`SpeedTest cron is ${SPEEDTEST_INTERVAL}`);
 app.listen(PORT, () => {
   console.log(`\nRasUtils started in mode '${process.env.NODE_ENV}'`);
   if (process.env.NODE_ENV === 'PRODUCTION' || process.env.NODE_ENV === 'DEVTEST') {
