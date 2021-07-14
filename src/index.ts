@@ -7,11 +7,10 @@ import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
+const { version } = require('./package,json');
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
-
-import { DataTypeGuard } from 'guards/data-type.guard';
 
 dotenv.config();
 require('dotenv-defaults/config');
@@ -189,7 +188,8 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
 });
 
 app.listen(PORT, () => {
-  console.log(`\nRasUtils started in mode '${process.env.NODE_ENV}'`);
+  console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);
+  console.log(`Version ${version}`);
   if (process.env.NODE_ENV === 'PRODUCTION' || process.env.NODE_ENV === 'DEVTEST') {
     console.log('TLS/HTTPS is on.');
   } else {
