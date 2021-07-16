@@ -43,8 +43,10 @@ const PRIVATE_KEY = validateVitalEnv('PRIVATE_SSH_KEY');
     }
 
     try {
-      let folders = await ssh.exec('cd rutils && npm i');
-      console.log(folders.toString());
+      console.log('Updating NPM packages...');
+      let update = await ssh.exec('cd rutils && npm i');
+      console.log('Updated NPM packages');
+      console.log(update);
     } catch (e) {
       console.log(e.toString());
     }
