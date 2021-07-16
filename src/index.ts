@@ -3,13 +3,14 @@ require('tsconfig-paths/register');
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
+
+import SysRoutes from '@routes/system/routes';
 
 const version = process.env.npm_package_version;
 
@@ -48,10 +49,7 @@ mongoose.connection.on('error', (err: any) => {
 // Create Express instance
 const app = express();
 app.use(cors());
-app.set('view engine', 'pug');
 app.use(express.static('public'));
-console.log(path.join(__dirname, 'views'));
-app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -187,6 +185,8 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
   return res.json({temps});
 
 });
+
+app.use(`${BASE_URL}/sys`, SysRoutes);
 
 app.listen(PORT, () => {
   console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);
