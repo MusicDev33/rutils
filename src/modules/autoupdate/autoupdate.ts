@@ -42,6 +42,13 @@ const PRIVATE_KEY = validateVitalEnv('PRIVATE_SSH_KEY');
       console.log(e.toString());
     }
 
+    try {
+      let folders = await ssh.exec('cd rutils && npm i');
+      console.log(folders.toString());
+    } catch (e) {
+      console.log(e.toString());
+    }
+
     await ssh.exec('pm2 restart rutils');
     console.log('Restarted RUtils');
 
