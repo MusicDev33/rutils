@@ -14,6 +14,8 @@ if (!fs.existsSync('src/schemas')) {
 }
 
 fs.readdir('src/models/', (err, files) => {
+  console.log('Generating schemas...');
+
   files.forEach(async (file) => {
     const modelName = generateModelName(file);
 

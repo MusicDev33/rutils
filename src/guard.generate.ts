@@ -14,6 +14,8 @@ const project = new Project({
 });
 
 fs.readdir('src/models/', (err, files) => {
+  console.log('Generating guards...');
+
   files.forEach(async (file) => {
     const modelName = generateModelName(file);
     const fileName = file.split('.')[0];

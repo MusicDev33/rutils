@@ -15,6 +15,8 @@ if (!fs.existsSync('src/services')) {
 }
 
 fs.readdir('src/schemas/', (err, files) => {
+  console.log('Generating services...');
+
   files.forEach(async (file) => {
     const modelName = generateModelName(file);
     const fileName = file.split('.')[0];
