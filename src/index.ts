@@ -13,6 +13,11 @@ import { Request, Response } from 'express';
 import SysRoutes from '@routes/system/routes';
 import FoodRoutes from '@routes/food/routes';
 
+const allRoutes = [
+  {prefix: 'sys', routes: SysRoutes},
+  {prefix: 'food', routes: FoodRoutes}
+];
+
 const version = process.env.npm_package_version;
 
 dotenv.config();
@@ -187,8 +192,13 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
 
 });
 
-app.use(`${BASE_URL}/sys`, SysRoutes);
-app.use(`${BASE_URL}/food`, FoodRoutes);
+for (let conf of allRoutes) {
+  try {
+    app.use(`${BASE_URL}/${conf.prefix}`, conf.routes);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 app.listen(PORT, () => {
   console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);
