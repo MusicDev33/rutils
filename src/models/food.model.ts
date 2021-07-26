@@ -1,6 +1,11 @@
 import { Document } from 'mongoose';
 
 export interface IFood extends Document {
+  name: string;
+  foodId: string;
+
+  tags: string[];
+
   totalServings: number;
   calories: number;
 

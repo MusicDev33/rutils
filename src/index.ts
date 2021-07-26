@@ -11,6 +11,7 @@ import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
 
 import SysRoutes from '@routes/system/routes';
+import FoodRoutes from '@routes/food/routes';
 
 const version = process.env.npm_package_version;
 
@@ -187,6 +188,7 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
 });
 
 app.use(`${BASE_URL}/sys`, SysRoutes);
+app.use(`${BASE_URL}/food`, FoodRoutes);
 
 app.listen(PORT, () => {
   console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);
