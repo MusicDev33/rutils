@@ -54,10 +54,6 @@ export const generateSchema = (file: string, name: string, properties: PropertyS
   writer.newLine();
   writer.writeLine(`export const ${name}: Model<I${name}> = mongoose.model<I${name}>('${name}', ${name}Schema);`);
 
-  if (!fs.existsSync('src/schemas')) {
-    fs.mkdirSync('src/schemas');
-  }
-
   const fileName = `src/schemas/${file.split('.')[0].toLowerCase()}.schema.ts`;
 
   if (fs.existsSync(fileName)) {

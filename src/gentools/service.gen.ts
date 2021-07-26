@@ -41,10 +41,6 @@ export const generateServiceFile = (modelName: string, fileName: string) => {
   writer.writeLine(`const ${exportName} = ${modelName}Service.getInstance();`);
   writer.writeLine(`export default ${exportName};`);
 
-  if (!fs.existsSync('src/services')) {
-    fs.mkdirSync('src/services');
-  }
-
   const newFileName = `src/services/${fileName}.service.ts`;
 
   fs.writeFile(newFileName, writer.toString(), (err) => {

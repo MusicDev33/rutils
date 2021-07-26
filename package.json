@@ -11,9 +11,10 @@
     "update:all": "git pull origin master && npm i && pm2 restart rutils && ts-node src/modules/autoupdate/autoupdate.ts",
     "update:self": "git pull origin master && npm i && pm2 restart rutils",
     "pm2": "pm2 start npm --name=rutils -- run prod",
-    "generate:schemas": "ts-node src/schema.generate.ts",
-    "generate:services": "ts-node src/service.generate.ts",
-    "generate:all": "ts-node src/schema.generate.ts && ts-node src/service.generate.ts"
+    "gen:schemas": "ts-node src/schema.generate.ts",
+    "gen:services": "ts-node src/service.generate.ts",
+    "gen:guards": "ts-node src/guard.generate.ts",
+    "gen:all": "ts-node src/schema.generate.ts && ts-node src/service.generate.ts && ts-node src/guard.generate.ts"
   },
   "repository": {
     "type": "git",

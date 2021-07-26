@@ -10,6 +10,10 @@ const project = new Project({
   tsConfigFilePath: 'tsconfig.json'
 });
 
+if (!fs.existsSync('src/services')) {
+  fs.mkdirSync('src/services');
+}
+
 fs.readdir('src/schemas/', (err, files) => {
   files.forEach(async (file) => {
     const modelName = generateModelName(file);
