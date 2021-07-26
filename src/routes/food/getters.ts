@@ -19,5 +19,5 @@ export const getFoodBySearchRoute = async (req: Request, res: Response) => {
 }
 
 export const testEndpointRoute = async (req: Request, res: Response) => {
-  return res.json({success: true, message: 'This is just a test endpoint.'});
+  return res.json({success: true, message: 'Food routes are online.'});
 }

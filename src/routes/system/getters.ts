@@ -37,3 +37,7 @@ export const getAllDriveUsageRoute = async (req: Request, res: Response) => {
 
   return res.json({success: true, data});
 }
+
+export const statusRoute = async (req: Request, res: Response) => {
+  return res.json({success: true, message: 'System routes are online.'});
+}

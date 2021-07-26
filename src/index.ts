@@ -3,9 +3,13 @@ require('tsconfig-paths/register');
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import express from 'express';
+import { Router } from 'express';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
+
+import GlobalStatus from './global';
+import { RouteName } from './global';
 
 import { validateVitalEnv } from './env.validate';
 import { Request, Response } from 'express';
@@ -13,7 +17,7 @@ import { Request, Response } from 'express';
 import SysRoutes from '@routes/system/routes';
 import FoodRoutes from '@routes/food/routes';
 
-const allRoutes = [
+const allRoutes: Array<{prefix: RouteName, routes: Router}> = [
   {prefix: 'sys', routes: SysRoutes},
   {prefix: 'food', routes: FoodRoutes}
 ];
@@ -40,16 +44,32 @@ const PORT = validateVitalEnv('API_PORT');
 const BASE_URL = validateVitalEnv('API_URL_BASE');
 console.log(BASE_URL);
 
-mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+try {
+  mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
+} catch (e) {
+  console.log(e);
+}
 
 mongoose.connection.on('connected', () => {
   console.log('Database Connected: ' + DB_URI);
+  GlobalStatus.setSysStatus('mongo', 'Online');
+
+  console.log(GlobalStatus.getSystemStatus());
 });
 
 mongoose.connection.on('error', (err: any) => {
-  console.log('Database Error: ' + err);
+  const errString = 'Database Error: ' + err;
+  console.log(errString);
+
+  // Make Machamp fix the problem sometime
+  if (errString.includes('ECONNREFUSED')) {
+    console.log('\n\nMy guess is MongoDB is down. Maybe try running `sudo systemctl start mongod`?');
+  }
+  GlobalStatus.setSysStatus('mongo', 'Offline');
+
+  console.log(GlobalStatus.getSystemStatus());
 });
 
 // Create Express instance
@@ -195,10 +215,14 @@ app.get(`${BASE_URL}/thermals/systemp/all`, async (req: Request, res: Response) 
 for (let conf of allRoutes) {
   try {
     app.use(`${BASE_URL}/${conf.prefix}`, conf.routes);
+    GlobalStatus.setRouteStatus(conf.prefix, 'Online');
   } catch (e) {
+    GlobalStatus.setRouteStatus(conf.prefix, 'Offline');
     console.log(e);
   }
 }
+
+console.log(GlobalStatus.getRouteStatus());
 
 app.listen(PORT, () => {
   console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);
