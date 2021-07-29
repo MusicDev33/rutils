@@ -1,14 +1,9 @@
 require('tsconfig-paths/register');
 import ssh2prom = require('ssh2-promise');
 import dotenv from 'dotenv';
-import axios from 'axios';
-const fs = require('fs').promises;
 import { validateVitalEnv } from 'env.validate';
-const { exec } = require('child-process-async');
 
 import { rPis } from 'machines';
-
-const pLockUrl = 'https://raw.githubusercontent.com/MusicDev33/rutils/master/package-lock.json';
 
 dotenv.config();
 require('dotenv-defaults/config');
