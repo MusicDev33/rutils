@@ -46,8 +46,9 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
     return res.status(503).json({success: false, message: 'Platform not supported'});
   }
 
-  const regUpdates = (await exec(`/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1`)).stdout as string;
-  const secUpdates = (await exec(`/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2`)).stdout as string;
+  const updates = (await exec(`/usr/lib/update-notifier/apt-check`)).stdout as string;
+  const regUpdates = updates.split(';')[0];
+  const secUpdates = updates.split(';')[1];
 
   data.push({name: 'Raspi1', regUpdates: regUpdates.trim(), secUpdates: secUpdates.trim()});
 
