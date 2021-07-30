@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { platformSupported } from '@util/sys-support';
 const { exec } = require('child-process-async');
 
 import { Request, Response } from 'express';
@@ -36,6 +37,21 @@ export const getAllDriveUsageRoute = async (req: Request, res: Response) => {
   }
 
   return res.json({success: true, data});
+}
+
+export const getNumUpdatesRoute = async (req: Request, res: Response) => {
+  let data: {name: string, regUpdates: string, secUpdates: string}[] = [];
+
+  if (!platformSupported(['linux'])) {
+    return res.status(503).json({success: false, message: 'Platform not supported'});
+  }
+
+  const regUpdates = (await exec(`/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1`)).stdout as string;
+  const secUpdates = (await exec(`/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2`)).stdout as string;
+
+  data.push({name: 'Raspi1', regUpdates: regUpdates.trim(), secUpdates: secUpdates.trim()});
+
+  return res.json({success: true, message: 'Received update data', payload: data})
 }
 
 export const statusRoute = async (req: Request, res: Response) => {
