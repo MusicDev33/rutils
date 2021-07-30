@@ -50,9 +50,9 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
   const regUpdates = updates.split(';')[0];
   const secUpdates = updates.split(';')[1];
 
-  data.push({name: 'Raspi1', regUpdates: regUpdates.trim(), secUpdates: secUpdates.trim()});
+  // data.push({name: 'Raspi1', regUpdates: regUpdates.trim(), secUpdates: secUpdates.trim()});
 
-  return res.json({success: true, message: 'Received update data', payload: data})
+  return res.json({success: true, message: 'Received update data', payload: updates});
 }
 
 export const statusRoute = async (req: Request, res: Response) => {
