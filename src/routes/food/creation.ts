@@ -6,6 +6,12 @@ import { Request, Response } from 'express';
 export const addFoodRoute = async (req: Request, res: Response) => {
   const body = req.body;
 
+  console.log(body);
+
+  if (body) {
+    return res.json({success: true, message: 'Hi.'});
+  }
+
   if (body.name === undefined) {
     return res.status(400).json({success: false, message: 'Name required.'})
   }
