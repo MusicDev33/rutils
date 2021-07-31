@@ -2,6 +2,9 @@ import mongoose, { Schema, Model } from 'mongoose';
 import { IFood } from '@models/food.model';
 
 const FoodSchema: Schema = new Schema({
+	name: {type: String, required: true},
+	foodId: {type: String, required: true},
+	tags: [{type: String, required: true}],
 	totalServings: {type: Number, required: true},
 	calories: {type: Number, required: true},
 	totalFat: {type: Number, required: true},
@@ -17,6 +20,7 @@ const FoodSchema: Schema = new Schema({
 	calcium: {type: Number, required: true},
 	iron: {type: Number, required: true},
 	potassium: {type: Number, required: true},
+	expDate: {type: String, required: true},
 },{
 	minimize: false, 
 	strict: false

@@ -1,6 +1,9 @@
 import { IFood } from '@models/food.model';
 
 export const validateFood = (model: IFood) => {
+	if (model.name === undefined) return false;
+	if (model.foodId === undefined) return false;
+	if (model.tags === undefined) return false;
 	if (model.totalServings === undefined) return false;
 	if (model.calories === undefined) return false;
 	if (model.totalFat === undefined) return false;
@@ -16,6 +19,7 @@ export const validateFood = (model: IFood) => {
 	if (model.calcium === undefined) return false;
 	if (model.iron === undefined) return false;
 	if (model.potassium === undefined) return false;
+	if (model.expDate === undefined) return false;
 	if (model.nonStrict === undefined) return false;
 	return true;
 }

@@ -26,5 +26,8 @@ export interface IFood extends Document {
   iron: number;
   potassium: number;
 
+  // dd/mm/yyyy
+  expDate: string;
+
   nonStrict?: boolean;
 }
