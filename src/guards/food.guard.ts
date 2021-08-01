@@ -2,6 +2,7 @@ import { IFood } from '@models/food.model';
 
 export const validateFood = (model: IFood) => {
 	if (model.name === undefined) return false;
+	if (model.brand === undefined) return false;
 	if (model.foodId === undefined) return false;
 	if (model.tags === undefined) return false;
 	if (model.totalServings === undefined) return false;

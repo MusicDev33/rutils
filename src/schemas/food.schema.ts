@@ -3,6 +3,7 @@ import { IFood } from '@models/food.model';
 
 const FoodSchema: Schema = new Schema({
 	name: {type: String, required: true},
+	brand: {type: String, required: true},
 	foodId: {type: String, required: true},
 	tags: [{type: String, required: true}],
 	totalServings: {type: Number, required: true},

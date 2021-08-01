@@ -2,6 +2,9 @@ import { Document } from 'mongoose';
 
 export interface IFood extends Document {
   name: string;
+  brand: string;
+
+  // Automatically set by the backend
   foodId: string;
 
   tags: string[];

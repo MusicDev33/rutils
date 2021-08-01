@@ -16,7 +16,10 @@ export const addFoodRoute = async (req: Request, res: Response) => {
     return res.status(400).json({success: false, message: 'Name required.'})
   }
 
-  body['foodId'] = `${body.name.replace(/\s+/g, '-').replace(/[.]/g, '').toLowerCase()}`;
+  const brandId = body.brand.replace(/\s+/g, '-').toLowerCase();
+  const nameId = body.name.replace(/\s+/g, '-').replace(/[.]/g, '').toLowerCase();
+
+  body['foodId'] = `${brandId}_${nameId}`;
 
   if (!validateFood(req.body)) {
     return res.status(400).json({success: false, message: 'Invalid object given, could not convert body to Food Object.'});
