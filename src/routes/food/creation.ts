@@ -1,4 +1,5 @@
 import FoodService from '@services/food.service';
+import { Food } from '@schemas/food.schema';
 import { validateFood } from '@guards/food.guard';
 
 import { Request, Response } from 'express';
@@ -21,7 +22,9 @@ export const addFoodRoute = async (req: Request, res: Response) => {
     return res.status(400).json({success: false, message: 'Invalid object given, could not convert body to Food Object.'});
   }
 
-  const savedFood = await FoodService.saveModel(body);
+  const newFood = new Food(body);
+
+  const savedFood = await FoodService.saveModel(newFood);
 
   if (!savedFood) {
     return res.status(503).json({success: false, message: 'Could not save food object to database'});
