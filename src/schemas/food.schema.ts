@@ -21,7 +21,6 @@ const FoodSchema: Schema = new Schema({
 	calcium: {type: Number, required: true},
 	iron: {type: Number, required: true},
 	potassium: {type: Number, required: true},
-	expDate: {type: String, required: true},
 },{
 	minimize: false, 
 	strict: false

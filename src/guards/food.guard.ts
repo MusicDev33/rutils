@@ -20,7 +20,6 @@ export const validateFood = (model: IFood) => {
 	if (model.calcium === undefined) return false;
 	if (model.iron === undefined) return false;
 	if (model.potassium === undefined) return false;
-	if (model.expDate === undefined) return false;
 	if (model.nonStrict === undefined) return false;
 	return true;
 }
