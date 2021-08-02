@@ -22,12 +22,12 @@ export interface IFood extends Document {
   protein: number;
 
   // The following are in milligrams
-  cholesterol: number;
-  sodium: number;
-  vitaminD: number;
-  calcium: number;
-  iron: number;
-  potassium: number;
+  cholesterol?: number;
+  sodium?: number;
+  vitaminD?: number;
+  calcium?: number;
+  iron?: number;
+  potassium?: number;
 
   nonStrict?: boolean;
 }

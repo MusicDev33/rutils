@@ -15,7 +15,7 @@ export const generateGuardFile = (modelName: string, fileName: string, propertie
 
   writer.write(`export const validate${modelName} = (model: I${modelName}) =>`).block(() => {
     properties.forEach(property => {
-      if (property.getName() !== 'nonStrict') {
+      if (!property.hasQuestionToken()) {
         writer.writeLine(`if (model.${property.getName()} === undefined) return false;`);
       }
     });

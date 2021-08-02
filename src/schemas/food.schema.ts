@@ -15,12 +15,12 @@ const FoodSchema: Schema = new Schema({
 	fiber: {type: Number, required: true},
 	totalSugars: {type: Number, required: true},
 	protein: {type: Number, required: true},
-	cholesterol: {type: Number, required: true},
-	sodium: {type: Number, required: true},
-	vitaminD: {type: Number, required: true},
-	calcium: {type: Number, required: true},
-	iron: {type: Number, required: true},
-	potassium: {type: Number, required: true},
+	cholesterol: {type: Number, required: false},
+	sodium: {type: Number, required: false},
+	vitaminD: {type: Number, required: false},
+	calcium: {type: Number, required: false},
+	iron: {type: Number, required: false},
+	potassium: {type: Number, required: false},
 },{
 	minimize: false, 
 	strict: false
