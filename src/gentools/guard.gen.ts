@@ -15,6 +15,9 @@ export const generateGuardFile = (modelName: string, fileName: string, propertie
 
   writer.write(`export const validate${modelName} = (model: I${modelName}) =>`).block(() => {
     properties.forEach(property => {
+
+      // This has got to be the stupidest name for determining optional properties.
+      // Sorry ts-morph devs
       if (!property.hasQuestionToken()) {
         writer.writeLine(`if (model.${property.getName()} === undefined) return false;`);
       }
