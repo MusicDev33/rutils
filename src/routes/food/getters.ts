@@ -21,6 +21,16 @@ export const getFoodBySearchRoute = async (req: Request, res: Response) => {
   return res.json({success: true, message: 'Search successful.', payload: foundFood});
 }
 
+export const getFoodRoute = async (req: Request, res: Response) => {
+  const food = await FoodService.findModelsByQuery({}, {_id: 1}, 10);
+
+  if (!food) {
+    return res.status(503).json({success: false, message: 'Error.'});
+  }
+
+  return res.json({success: true, message: 'Found food. Just not IRL...', payload: food});
+}
+
 export const testEndpointRoute = async (req: Request, res: Response) => {
   return res.json({success: true, message: 'Food routes are online.'});
 }
