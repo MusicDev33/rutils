@@ -22,6 +22,7 @@ export const getFoodBySearchRoute = async (req: Request, res: Response) => {
 }
 
 export const getFoodRoute = async (req: Request, res: Response) => {
+  console.log('get food')
   const food = await FoodService.findModelsByQuery({}, {_id: 1}, 10);
 
   if (!food) {
