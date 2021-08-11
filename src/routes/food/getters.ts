@@ -22,11 +22,20 @@ export const getFoodBySearchRoute = async (req: Request, res: Response) => {
 }
 
 export const getFoodRoute = async (req: Request, res: Response) => {
-  console.log('get food')
   const food = await FoodService.findModelsByQuery({}, {_id: 1}, 10);
 
   if (!food) {
     return res.status(503).json({success: false, message: 'Error.'});
+  }
+
+  return res.json({success: true, message: 'Found food. Just not IRL...', payload: food});
+}
+
+export const getFoodByFoodIdRoute = async (req: Request, res: Response) => {
+  const food = await FoodService.findOneModelByQuery({foodId: req.params.foodId});
+
+  if (!food) {
+    return res.status(503).json({success: false, message: `Food with foodId '${req.params.foodId}' does not exist.`});
   }
 
   return res.json({success: true, message: 'Found food. Just not IRL...', payload: food});

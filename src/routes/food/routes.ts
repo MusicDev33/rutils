@@ -6,6 +6,7 @@ router.post('/search', Routes.getFoodBySearchRoute);
 
 // Just gives the last ten food items put into the DB
 router.get('/', Routes.getFoodRoute);
+router.get('/:foodId', Routes.getFoodByFoodIdRoute);
 
 router.get('/test', Routes.testEndpointRoute);
 
