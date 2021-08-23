@@ -10,7 +10,7 @@ export const getOneSysTempRoute = async (_: Request, res: Response) => {
 
 export const getAllSysTempRoute = async (_: Request, res: Response) => {
   const temp = parseInt(execSync('cat /sys/class/thermal/thermal_zone0/temp').toString());
-  let temps = [{name: 'raspi2', temp: (temp / 1000).toString()}];
+  let temps = [{name: 'raspi1', temp: (temp / 1000).toString()}];
 
   for (let pi of GlobalStatus.getNodes()) {
     try {
@@ -19,11 +19,7 @@ export const getAllSysTempRoute = async (_: Request, res: Response) => {
       let data = res.data;
       let newTemp = parseFloat(data.temp);
 
-      if (pi.hostName === 'raspi1') {
-        temps.unshift({name: pi.hostName, temp: (newTemp).toString()});
-      } else {
-        temps.push({name: pi.hostName, temp: (newTemp).toString()});
-      }
+      temps.push({name: pi.hostName, temp: (newTemp).toString()});
     } catch (e) {
       console.log(e);
     }

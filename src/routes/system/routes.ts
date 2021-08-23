@@ -6,7 +6,7 @@ router.get('/drives/space', Routes.getAllDriveUsageRoute);
 router.get('/updates', Routes.getNumUpdatesRoute);
 router.get('/cpudata', Routes.getOneCpuDataRoute);
 
-router.get('/thermals/temp', Routes.getOneSysTempRoute);
-router.get('/thermals/temp/all', Routes.getAllSysTempRoute);
+router.get('/thermals/systemp', Routes.getOneSysTempRoute);
+router.get('/thermals/systemp/all', Routes.getAllSysTempRoute);
 
 export default router;
