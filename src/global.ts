@@ -1,5 +1,5 @@
 // This is going to be an experimental object to keep track of well, global status.
-// The scope of this object definitely needs to stay limited.
+// The scope of this object definitely needs to stay limited. It won't. But it should.
 
 export type RouteName = 'sys' | 'food';
 type Status = 'Online' | 'Offline' | 'Pending';
@@ -10,11 +10,14 @@ type SysService = 'mongo';
 // This is just services that I've created that aren't RUtils, like Machamp
 type VigilService = '';
 
+type CPUNode = {hostName: string, ip: string};
+
 class GlobalStatus {
   private static instance: GlobalStatus;
 
   private RouteStatus: Record<RouteName, Status>;
   private SystemStatus: Record<SysService, Status>;
+  private Nodes: CPUNode[];
 
   private constructor() {
     this.RouteStatus = {
@@ -25,6 +28,8 @@ class GlobalStatus {
     this.SystemStatus = {
       mongo: 'Pending'
     }
+
+    this.Nodes = [];
   }
 
   public setRouteStatus(route: RouteName, status: Status) {
@@ -41,6 +46,14 @@ class GlobalStatus {
 
   public getRouteStatus() {
     return this.RouteStatus;
+  }
+
+  public setNodes(nodes: CPUNode[]) {
+    this.Nodes = nodes;
+  }
+
+  public getNodes() {
+    return this.Nodes;
   }
 
   public static getInstance(): GlobalStatus {

@@ -27,6 +27,7 @@
           "@util/*": ["util/*"],
           "@guards/*": ["guards/*"],
           "@gentools/*": ["gentools/*"],
+          "@interfaces/*": ["interfaces/*"]
         },
     },
     "include": [

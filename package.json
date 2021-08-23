@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node-dev src/index.ts",
-    "prod": "ts-node src/index.ts",
+    "prod": "ts-node src/index.ts NODE_ENV=production",
     "ssh-test": "ts-node src/modules/autoupdate/autoupdate.ts",
     "update:all": "git pull origin master && npm i && pm2 restart rutils && ts-node src/modules/autoupdate/autoupdate.ts",
     "update:self": "git pull origin master && npm i && pm2 restart rutils",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/MusicDev33/rutils#readme",
   "dependencies": {
     "@influxdata/influxdb-client": "^1.15.0",
+    "@types/amqplib": "^0.8.2",
     "@types/chart.js": "^2.9.34",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",

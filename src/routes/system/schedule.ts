@@ -6,5 +6,5 @@ import amq from 'amqplib';
 
 
 export const scheduleSysUpdatesRoute = (req: Request, res: Response) => {
-
+    
 }
