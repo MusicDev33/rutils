@@ -15,7 +15,7 @@ export const getAllSysTempRoute = async (_: Request, res: Response) => {
   for (let pi of GlobalStatus.getNodes()) {
     try {
       console.log(`Getting temp data for ${pi.hostName}`);
-      let res = await axios.get(`http://${pi.ip}:3000/utils/thermals/systemp`);
+      let res = await axios.get(`http://${pi.ip}:3000/utils/sys/thermals/systemp`);
       let data = res.data;
       let newTemp = parseFloat(data.temp);
 
