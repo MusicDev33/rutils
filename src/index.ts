@@ -98,11 +98,11 @@ app.get('/', (_, res: Response) => {
   res.status(404).send(resText + resImg);
 });
 
-app.get('/alive', (_, res) => {
+app.get(BASE_URL + '/alive', (_, res) => {
   res.status(200).json({success: true, msg: 'Node online'});
 });
 
-app.get('/alive/all', async (_, res) => {
+app.get(BASE_URL + '/alive/all', async (_, res) => {
   type Status = {
     name: string,
     status: string
