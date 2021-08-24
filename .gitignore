@@ -2,3 +2,4 @@
 .env
 assets/css/*
 machines.ts
+init
