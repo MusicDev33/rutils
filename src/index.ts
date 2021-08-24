@@ -102,6 +102,31 @@ app.get('/alive', (_, res) => {
   res.status(200).json({success: true, msg: 'Node online'});
 });
 
+app.get('/alive/all', async (_, res) => {
+  type Status = {
+    name: string,
+    status: string
+  }
+
+  let statuses: Status[] = [{
+    name: 'Node 1',
+    status: 'alive'
+  }];
+
+  for (let pi of GlobalStatus.getNodes()) {
+    try {
+      console.log(`Getting temp data for ${pi.hostName}`);
+      let res = await axios.get(`http://${pi.ip}:3000/alive`);
+      let data = res.data;
+
+      statuses.push({name: pi.hostName, status: 'alive'});
+    } catch (e) {
+      console.log(e);
+      statuses.push({name: pi.hostName, status: 'dead'});
+    }
+  }
+});
+
 for (let conf of allRoutes) {
   try {
     app.use(`${BASE_URL}/${conf.prefix}`, conf.routes);
