@@ -98,6 +98,10 @@ app.get('/', (_, res: Response) => {
   res.status(404).send(resText + resImg);
 });
 
+app.get('/alive', (_, res) => {
+  res.status(200).json({success: true, msg: 'Node online'});
+});
+
 for (let conf of allRoutes) {
   try {
     app.use(`${BASE_URL}/${conf.prefix}`, conf.routes);
