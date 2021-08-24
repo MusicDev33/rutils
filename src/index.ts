@@ -115,7 +115,7 @@ app.get('/alive/all', async (_, res) => {
 
   for (let pi of GlobalStatus.getNodes()) {
     try {
-      console.log(`Getting temp data for ${pi.hostName}`);
+      console.log(`Hey ${pi.hostName}, are you alive?`);
       let res = await axios.get(`http://${pi.ip}:3000/alive`);
       let data = res.data;
 
@@ -125,6 +125,8 @@ app.get('/alive/all', async (_, res) => {
       statuses.push({name: pi.hostName, status: 'dead'});
     }
   }
+
+  res.json({success: true, payload: statuses});
 });
 
 for (let conf of allRoutes) {
