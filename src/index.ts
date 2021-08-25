@@ -7,6 +7,8 @@ import { Router } from 'express';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
+import path from 'path';
+import apn from 'apn';
 
 import GlobalStatus from './global';
 import { RouteName } from './global';
@@ -16,6 +18,7 @@ import { Request, Response } from 'express';
 
 import SysRoutes from '@routes/system/routes';
 import FoodRoutes from '@routes/food/routes';
+import { validate } from 'node-cron';
 
 const allRoutes: Array<{prefix: RouteName, routes: Router}> = [
   {prefix: 'sys', routes: SysRoutes},
@@ -23,6 +26,7 @@ const allRoutes: Array<{prefix: RouteName, routes: Router}> = [
 ];
 
 const version = process.env.npm_package_version;
+const NAME = validateVitalEnv('NODE_NAME');
 
 dotenv.config();
 require('dotenv-defaults/config');
@@ -151,4 +155,24 @@ app.listen(PORT, () => {
   }
   console.log(`Base URL: ${BASE_URL}`);
   console.log('Port: ' + PORT);
+
+  let deviceToken = validateVitalEnv('DEVICE_TOKEN');
+  let p12Location = validateVitalEnv('P12_LOCATION');
+  let p12Pass = validateVitalEnv('P12_PASS')
+
+  let apnOptions = {
+    pfx: p12Location,
+    passphrase: p12Pass,
+    production: false
+  }
+
+  let apnProvider = new apn.Provider(apnOptions);
+  let notif = new apn.Notification();
+  notif.alert = `${NAME} is now online.`;
+
+  apnProvider.send(notif, [deviceToken]).then(res => {
+    console.log(res.failed);
+    console.log(res.sent);
+  });
+
 });

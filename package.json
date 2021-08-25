@@ -36,6 +36,7 @@
     "@types/node": "^16.4.1",
     "@types/node-cron": "^2.0.4",
     "amqplib": "^0.8.0",
+    "apn": "^2.2.0",
     "axios": "^0.21.1",
     "chart.js": "^3.4.1",
     "child-process-async": "^1.0.1",
