@@ -169,6 +169,7 @@ app.listen(PORT, () => {
   let apnProvider = new apn.Provider(apnOptions);
   let notif = new apn.Notification();
   notif.alert = `${NAME} is now online.`;
+  notif.topic = 'com.musicdev.Vigil';
 
   apnProvider.send(notif, [deviceToken]).then(res => {
     console.log(res.failed);
