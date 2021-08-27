@@ -20,6 +20,9 @@ import SysRoutes from '@routes/system/routes';
 import FoodRoutes from '@routes/food/routes';
 import { validate } from 'node-cron';
 
+// Some processes are very SSH-intensive, and open a lot of connections, hence this line
+process.setMaxListeners(20);
+
 const allRoutes: Array<{prefix: RouteName, routes: Router}> = [
   {prefix: 'sys', routes: SysRoutes},
   {prefix: 'food', routes: FoodRoutes}
