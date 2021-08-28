@@ -31,7 +31,7 @@ const PRIVATE_KEY = validateVitalEnv('PRIVATE_SSH_KEY');
     }
 
     try {
-      let folders = await ssh.exec('cd machamp && git pull origin master');
+      let folders = await ssh.exec('cd machamp && git pull origin main');
       console.log(folders.toString());
     } catch (e) {
       console.log(e.toString());
