@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import { platformSupported } from '@util/sys-support';
 const { exec } = require('child-process-async');
 
+import axios from 'axios';
+
 import MachampService from '@services/machamp.service';
 
 import { Request, Response } from 'express';
@@ -60,9 +62,15 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
 export const pingBlinkRoute = async (req: Request, res: Response) => {
   const node = req.query.node;
 
+  let sent = false;
+
   if (node === 'direct') {
-    MachampService.sendTask('sys', 'pingblink');
+    sent = MachampService.sendTask('sys', 'pingblink');
+
+    return res.json({success: sent, msg: 'Did something?'});
   }
+
+  return res.json({success: false});
 }
 
 export const statusRoute = async (req: Request, res: Response) => {

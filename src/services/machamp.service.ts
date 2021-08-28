@@ -21,16 +21,18 @@ class MachampService {
     this.channel = channel;
   }
 	
-  public sendTask(system: string, task: string, params?: Record<string, any>) {
+  public sendTask(system: string, task: string, params?: Record<string, any>): boolean {
     if (!this.channel) {
       console.log('machamp channel not ready!');
 
-      return;
+      return false;
     }
 
     const msg = `machamp:${system}:${task}`;
 
-    this.channel.sendToQueue('machamp', Buffer.from(msg));
+    const sent = this.channel.sendToQueue('machamp', Buffer.from(msg));
+
+    return sent;
   }
 }
 
