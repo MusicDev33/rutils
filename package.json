@@ -10,6 +10,8 @@
     "ssh-test": "ts-node src/modules/autoupdate/autoupdate.ts",
     "update:all": "git pull origin master && npm i && pm2 restart rutils && ts-node src/modules/autoupdate/autoupdate.ts",
     "update:self": "git pull origin master && npm i && pm2 restart rutils",
+    "update:machamp:self": "cd /home/shelby/machamp && git pull origin master && npm i && pm2 restart machamp",
+    "update:machamp:all": "npm run machamp:update:self && ts-node src/modules/autoupdate/machamp.ts",
     "pm2": "pm2 start npm --name=rutils -- run prod",
     "gen:schemas": "ts-node src/schema.generate.ts",
     "gen:services": "ts-node src/service.generate.ts",
