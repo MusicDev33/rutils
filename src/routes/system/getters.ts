@@ -70,6 +70,8 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
 export const pingBlinkRoute = async (req: Request, res: Response) => {
   const node = req.query.node as string;
 
+  console.log(machineDict);
+
   let sent = false;
 
   if (node === 'direct') {
