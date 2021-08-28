@@ -81,7 +81,7 @@ export const pingBlinkRoute = async (req: Request, res: Response) => {
   }
 
   let selectedNodes = GlobalStatus.getNodes().filter(node => {
-    return node.hostName = nodeName;
+    return node.hostName === nodeName;
   });
 
   console.log(selectedNodes);
