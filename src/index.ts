@@ -7,8 +7,8 @@ import { Router } from 'express';
 const cors = require('cors');
 import { execSync } from 'child_process';
 import axios from 'axios';
-import path from 'path';
 import apn from 'apn';
+import amq from 'amqplib';
 
 import GlobalStatus from './global';
 import { RouteName } from './global';
@@ -18,7 +18,8 @@ import { Request, Response } from 'express';
 
 import SysRoutes from '@routes/system/routes';
 import FoodRoutes from '@routes/food/routes';
-import { validate } from 'node-cron';
+
+import MachampService from '@services/machamp.service';
 
 // Some processes are very SSH-intensive, and open a lot of connections, hence this line
 process.setMaxListeners(20);
@@ -147,6 +148,31 @@ for (let conf of allRoutes) {
 }
 
 console.log(GlobalStatus.getRouteStatus());
+
+// Set up AMQP Lib
+(async () => {
+  let connection: amq.Connection;
+  let channel: amq.Channel;
+
+  try {
+    connection = await amq.connect('amqp://localhost');
+    channel = await connection.createChannel();
+
+    await channel.assertQueue('machamp', {
+      durable: false
+    });
+
+    MachampService.setChannel(channel);
+    GlobalStatus.setSysStatus('amq', 'Online');
+    
+    console.log('amq is online.');
+  } catch (e) {
+    console.log(e);
+
+    GlobalStatus.setSysStatus('amq', 'Offline');
+  }
+
+})()
 
 app.listen(PORT, () => {
   console.log(`\nRUtils started in mode '${process.env.NODE_ENV}'`);

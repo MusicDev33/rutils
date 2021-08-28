@@ -55,6 +55,10 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
   return res.json({success: true, message: 'Received update data', payload: updates});
 }
 
+export const pingBlinkRoute = async (req: Request, res: Response) => {
+  
+}
+
 export const statusRoute = async (req: Request, res: Response) => {
   return res.json({success: true, message: 'System routes are online.'});
 }

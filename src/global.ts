@@ -5,7 +5,7 @@ export type RouteName = 'sys' | 'food';
 type Status = 'Online' | 'Offline' | 'Pending';
 
 // Add support for Mongo, Redis, RabbitMQ, Influx
-type SysService = 'mongo';
+type SysService = 'mongo' | 'amq';
 
 // This is just services that I've created that aren't RUtils, like Machamp
 type VigilService = '';
@@ -26,7 +26,8 @@ class GlobalStatus {
     }
 
     this.SystemStatus = {
-      mongo: 'Pending'
+      mongo: 'Pending',
+      amq: 'Pending'
     }
 
     this.Nodes = [];
