@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import { platformSupported } from '@util/sys-support';
 const { exec } = require('child-process-async');
 
+import MachampService from '@services/machamp.service';
+
 import { Request, Response } from 'express';
 dotenv.config();
 require('dotenv-defaults/config');
@@ -56,7 +58,11 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
 }
 
 export const pingBlinkRoute = async (req: Request, res: Response) => {
-  
+  const node = req.query.node;
+
+  if (node === 'direct') {
+    MachampService.sendTask('sys', 'pingblink');
+  }
 }
 
 export const statusRoute = async (req: Request, res: Response) => {
