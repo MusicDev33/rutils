@@ -1,6 +1,6 @@
 {
   "name": "rutils",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "A collection of Raspberry Pi utils",
   "main": "index.js",
   "scripts": {
