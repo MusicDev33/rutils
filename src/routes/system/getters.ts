@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import { platformSupported } from '@util/sys-support';
 const { exec } = require('child-process-async');
 
+import GlobalStatus from 'global';
+
 import axios from 'axios';
 
 import MachampService from '@services/machamp.service';
@@ -9,6 +11,12 @@ import MachampService from '@services/machamp.service';
 import { Request, Response } from 'express';
 dotenv.config();
 require('dotenv-defaults/config');
+
+const machineDict: Record<string, string> = {};
+
+for (let node of GlobalStatus.getNodes()) {
+  machineDict[node.hostName] = node.ip;
+}
 
 const EX_STORAGE = process.env.EX_STORAGE as string;
 const exStorage: {name: string, mount: string}[] = [];
@@ -60,7 +68,7 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
 }
 
 export const pingBlinkRoute = async (req: Request, res: Response) => {
-  const node = req.query.node;
+  const node = req.query.node as string;
 
   let sent = false;
 
@@ -70,7 +78,17 @@ export const pingBlinkRoute = async (req: Request, res: Response) => {
     return res.json({success: sent, msg: 'Did something?'});
   }
 
-  return res.json({success: false});
+  if (!(node in machineDict)) {
+    return res.json({success: false, msg: 'Node does not exist!'});
+  }
+
+  const ip = machineDict[node];
+
+  const pingRes = await axios.get(`http://${ip}:3000/utils/sys/pingblink?node=direct`);
+
+  const success = pingRes.data.success as boolean;
+
+  return res.json({success});
 }
 
 export const statusRoute = async (req: Request, res: Response) => {
