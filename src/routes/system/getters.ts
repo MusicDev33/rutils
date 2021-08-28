@@ -68,23 +68,31 @@ export const getNumUpdatesRoute = async (req: Request, res: Response) => {
 }
 
 export const pingBlinkRoute = async (req: Request, res: Response) => {
-  const node = req.query.node as string;
+  const nodeName = req.query.node as string;
 
   console.log(machineDict);
 
   let sent = false;
 
-  if (node === 'direct') {
+  if (nodeName === 'direct') {
     sent = MachampService.sendTask('sys', 'pingblink');
 
     return res.json({success: sent, msg: 'Did something?'});
   }
 
-  if (!(node in machineDict)) {
+  let selectedNodes = GlobalStatus.getNodes().filter(node => {
+    return node.hostName = nodeName;
+  });
+
+  console.log(selectedNodes);
+
+  if (!selectedNodes.length) {
     return res.json({success: false, msg: 'Node does not exist!'});
   }
 
-  const ip = machineDict[node];
+  let selectedNode = selectedNodes[0];
+
+  const ip = selectedNode.ip;
 
   const pingRes = await axios.get(`http://${ip}:3000/utils/sys/pingblink?node=direct`);
 
