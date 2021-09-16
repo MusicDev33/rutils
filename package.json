@@ -17,7 +17,8 @@
     "gen:schemas": "ts-node src/schema.generate.ts",
     "gen:services": "ts-node src/service.generate.ts",
     "gen:guards": "ts-node src/guard.generate.ts",
-    "gen:all": "ts-node src/schema.generate.ts && ts-node src/service.generate.ts && ts-node src/guard.generate.ts"
+    "gen:all": "ts-node src/schema.generate.ts && ts-node src/service.generate.ts && ts-node src/guard.generate.ts",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,7 @@
     "npm-check-updates": "^11.8.3",
     "npm-run-all": "^4.1.5",
     "ssh2-promise": "^1.0.0",
+    "standard-version": "^9.3.1",
     "ts-jest": "^27.0.5",
     "ts-morph": "^11.0.3",
     "ts-node": "^10.1.0",
