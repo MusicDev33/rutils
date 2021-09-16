@@ -1,7 +1,8 @@
 import * as Validate from './env.validate';
 import dotenv from 'dotenv';
 dotenv.config();
+require('dotenv-defaults/config');
 
-test('TEST_ENV == testing', () => {
-  expect(Validate.validateVitalEnv('TEST_ENV')).toBe('testing');
+test('NODE_NAME == whoami', () => {
+  expect(Validate.validateVitalEnv('NODE_NAME')).toBe('whoami');
 });

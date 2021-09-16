@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test-c": "jest --coverage",
     "start": "ts-node-dev src/index.ts",
     "prod": "ts-node src/index.ts NODE_ENV=production",
     "ssh-test": "ts-node src/modules/autoupdate/autoupdate.ts",
