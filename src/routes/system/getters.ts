@@ -76,6 +76,7 @@ export const pingBlinkRoute = async (req: Request, res: Response) => {
 
   if (nodeName === 'direct') {
     sent = MachampService.sendTask('sys', 'pingblink');
+    console.log(`Sent: ${sent}`);
 
     return res.json({success: sent, msg: 'Did something?'});
   }
