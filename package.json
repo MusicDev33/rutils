@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/MusicDev33/rutils#readme",
   "dependencies": {
-    "@influxdata/influxdb-client": "^1.15.0",
+    "@influxdata/influxdb-client": "^1.20.0",
     "@types/amqplib": "^0.8.2",
     "@types/chart.js": "^2.9.34",
     "@types/cors": "^2.8.12",
